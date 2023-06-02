@@ -1,0 +1,7 @@
+protobuf
+types-protobuf
+googleapis-common-protos
+googleapis-common-protos-stubs
+Jinja2
+grpcio
+grpcio-tools

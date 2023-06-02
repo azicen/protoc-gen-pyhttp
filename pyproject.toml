@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+extend_skip_glob = ["*_pb2.py"]
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+
+[tool.pyright]
+venvPath = "venv"
+venv = "venv"
+extraPaths = ["protoc_gen_http_python"]
+include = [
+    "protoc_gen_http_python/",
+    "test/"
+]
+exclude = [
+    "**/*_pb2.py",
+    "venv/"
+]
