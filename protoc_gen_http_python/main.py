@@ -8,7 +8,7 @@ if __package__ is None and not hasattr(sys, "frozen"):
     sys.path.insert(0, os.path.dirname(os.path.dirname(path)))
 from protoc_gen_http_python import http
 
-__version__ = "0.0.1rc3"
+__version__ = "0.0.1"
 
 
 def main() -> None:
