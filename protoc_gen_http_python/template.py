@@ -54,7 +54,7 @@ from google.protobuf.json_format import ParseDict as _ParseDict
 {%- for service in services %}
 
 
-class {{ service.pascal_case_name }}ServiceServicer(object):
+class {{ service.pascal_case_name }}Servicer(object):
     """
     {% for comment in service.comment -%}
     {{ comment }}
@@ -77,23 +77,23 @@ class {{ service.pascal_case_name }}ServiceServicer(object):
 
 def register_{{ service.snake_case_name }}_http_server(
         register: _Callable[[str, str, _Callable[[_Dict[str, _Any], bytes], _Any]], _Any],
-        servicer: {{ service.pascal_case_name }}ServiceServicer,
+        servicer: {{ service.pascal_case_name }}Servicer,
         parse_request: _Callable[[_Message, bytes], _Message],
         parse_reply: _Callable[[_Message], bytes]):
-    service = {{ service.pascal_case_name }}Service(servicer, parse_request, parse_reply)
+    service = {{ service.pascal_case_name }}(servicer, parse_request, parse_reply)
     {%- for method in service.methods %}
     register("{{ method.method }}", "{{ method.path }}", service.{{ method.snake_case_name }})
     {%- endfor %}
 
 
-class {{ service.pascal_case_name }}Service(object):
-    servicer: {{ service.pascal_case_name }}ServiceServicer
+class {{ service.pascal_case_name }}(object):
+    servicer: {{ service.pascal_case_name }}Servicer
     parse_request: _Callable[[_Message, bytes], _Message]
     parse_reply: _Callable[[_Message], _Any]
 
     def __init__(
             self,
-            servicer: {{ service.pascal_case_name }}ServiceServicer,
+            servicer: {{ service.pascal_case_name }}Servicer,
             parse_request: _Callable[[_Message, bytes], _Message],
             parse_reply: _Callable[[_Message], _Any]):
         self.servicer = servicer
