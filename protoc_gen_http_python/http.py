@@ -1,5 +1,5 @@
 import os
-from typing import List, Dict
+from typing import List, Dict, Union
 
 import google.api.annotations_pb2
 from google.protobuf.compiler.plugin_pb2 import CodeGeneratorResponse
@@ -107,14 +107,10 @@ def build_service(proto_file: FileDescriptorProto, pool: DescriptorPool,
         if method_desc.body_type is not None:
             service_desc.uses.add(method_desc.body_type.use)
 
-    # if len(service_desc.methods) > 0:
-    #     s = {tuple(location.path): location for location in proto_file.source_code_info.location}
-    #     raise AttributeError(f'{s}')
-
     return service_desc
 
 
-def build_method(pool: DescriptorPool, m: MethodDescriptorProto) -> MethodDesc | None:
+def build_method(pool: DescriptorPool, m: MethodDescriptorProto) -> Union[MethodDesc, None]:
     http = m.options.Extensions[google.api.annotations_pb2.http]
     if http is {}:
         return None
@@ -157,7 +153,6 @@ def build_method(pool: DescriptorPool, m: MethodDescriptorProto) -> MethodDesc |
             path = http.custom.path
         else:
             return None
-            # raise AttributeError(f'no http type in method {m.name}')
 
     method_desc.method = method
     method_desc.path = path
@@ -181,7 +176,6 @@ def build_method(pool: DescriptorPool, m: MethodDescriptorProto) -> MethodDesc |
     else:
         if not has_body:
             raise AttributeError(f'{method} {path} does not declare a body')
-
 
     return method_desc
 
