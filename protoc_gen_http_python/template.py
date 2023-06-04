@@ -3,6 +3,7 @@ from jinja2 import Template
 
 
 class TypeDesc:
+    name: str
     pascal_case_name: str
     snake_case_name: str
     alias: str  # api_dot_helloworld_dot_helloworld__pb2.TypeName
@@ -11,6 +12,7 @@ class TypeDesc:
 
 class MethodDesc:
     # method
+    name: str
     pascal_case_name: str
     snake_case_name: str
     request: TypeDesc
@@ -27,6 +29,7 @@ class MethodDesc:
 
 class ServiceDesc:
     entity_package: str  # hello_world_pd2
+    name: str
     pascal_case_name: str  # HelloWorld
     snake_case_name: str  # hello_world
     metadata: str  # api/helloworld/helloworld.proto
@@ -54,7 +57,7 @@ from google.protobuf.json_format import ParseDict as _ParseDict
 {%- for service in services %}
 
 
-class {{ service.pascal_case_name }}Servicer(object):
+class {{ service.name }}Servicer(object):
     """
     {% for comment in service.comment -%}
     {{ comment }}
@@ -62,7 +65,7 @@ class {{ service.pascal_case_name }}Servicer(object):
     """
     {%- for method in service.methods %}
 
-    def {{ method.snake_case_name }}(
+    def {{ method.name }}(
             self,
             request: {{ method.request.alias }}
     ) -> {{ method.reply.alias }}:
@@ -77,7 +80,7 @@ class {{ service.pascal_case_name }}Servicer(object):
 
 def register_{{ service.snake_case_name }}_http_server(
         register: _Callable[[str, str, _Callable[[_Dict[str, _Any], bytes], _Any]], _Any],
-        servicer: {{ service.pascal_case_name }}Servicer,
+        servicer: {{ service.name }}Servicer,
         parse_request: _Callable[[_Message, bytes], _Message],
         parse_reply: _Callable[[_Message], bytes]):
     service = {{ service.pascal_case_name }}(servicer, parse_request, parse_reply)
@@ -87,13 +90,13 @@ def register_{{ service.snake_case_name }}_http_server(
 
 
 class {{ service.pascal_case_name }}(object):
-    servicer: {{ service.pascal_case_name }}Servicer
+    servicer: {{ service.name }}Servicer
     parse_request: _Callable[[_Message, bytes], _Message]
     parse_reply: _Callable[[_Message], _Any]
 
     def __init__(
             self,
-            servicer: {{ service.pascal_case_name }}Servicer,
+            servicer: {{ service.name }}Servicer,
             parse_request: _Callable[[_Message, bytes], _Message],
             parse_reply: _Callable[[_Message], _Any]):
         self.servicer = servicer
@@ -119,7 +122,7 @@ class {{ service.pascal_case_name }}(object):
         {%- endif %}
         {%- endif %}
         assert isinstance(_request, {{ method.request.alias }})
-        _reply = self.servicer.{{ method.snake_case_name }}(_request)
+        _reply = self.servicer.{{ method.name }}(_request)
         return self.parse_reply(_reply)
     {%- endfor %}
 

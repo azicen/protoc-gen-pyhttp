@@ -62,10 +62,15 @@ def build_comment(proto_file: FileDescriptorProto, services: List[ServiceDesc]):
         if location.leading_detached_comments:
             for paragraph in location.leading_detached_comments:
                 add_paragraph(paragraph.rstrip('\n').split('\n'))
+
+        tmp_comment: List[str] = []
         if location.leading_comments:
-            add_paragraph([location.leading_comments])
+            tmp_comment.append(location.leading_comments)
         if location.trailing_comments:
-            add_paragraph([location.trailing_comments])
+            tmp_comment.append(location.trailing_comments)
+
+        if len(tmp_comment) > 0:
+            add_paragraph(tmp_comment)
 
         if len(comment) > 0:
             comment_dict[path] = comment
@@ -88,7 +93,8 @@ def build_service(proto_file: FileDescriptorProto, pool: DescriptorPool,
     filename = os.path.split(proto_file.name)[-1]
     entity_name = filename[:-len(".proto")]
     service_desc.entity_package = entity_name + "_pb2"
-    service_desc.snake_case_name = util.pascal_case_to_snake_case(service.name)
+    service_desc.name = service.name
+    service_desc.snake_case_name = util.pascal_case_to_snake_case(service_desc.name)
     service_desc.pascal_case_name = util.snake_case_to_pascal_case(service_desc.snake_case_name)
     service_desc.metadata = proto_file.name
     service_desc.comment = ""
@@ -119,7 +125,8 @@ def build_method(pool: DescriptorPool, m: MethodDescriptorProto) -> Union[Method
 
     method_desc = MethodDesc()
 
-    method_desc.snake_case_name = util.pascal_case_to_snake_case(m.name)
+    method_desc.name = m.name
+    method_desc.snake_case_name = util.pascal_case_to_snake_case(method_desc.name)
     method_desc.pascal_case_name = util.snake_case_to_pascal_case(method_desc.snake_case_name)
 
     input_type = m.input_type
@@ -194,7 +201,8 @@ def build_type(pool: DescriptorPool, type_full_name: str) -> TypeDesc:
 
     type_name = type_full_name.rsplit(".", 1)[-1]
 
-    type_desc.snake_case_name = util.pascal_case_to_snake_case(type_name)
+    type_desc.name = type_name
+    type_desc.snake_case_name = util.pascal_case_to_snake_case(type_desc.name)
     type_desc.pascal_case_name = util.snake_case_to_pascal_case(type_desc.snake_case_name)
 
     package_alias = util.build_alias(f'{package}.{file_name_without_extension}_pb2')
