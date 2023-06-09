@@ -1,6 +1,7 @@
 import os
 import sys
-import google.protobuf.compiler.plugin_pb2 as plugin
+
+from google.protobuf.compiler import plugin_pb2 as plugin
 from google.protobuf.descriptor_pool import DescriptorPool
 
 if __package__ is None and not hasattr(sys, "frozen"):
@@ -8,7 +9,7 @@ if __package__ is None and not hasattr(sys, "frozen"):
     sys.path.insert(0, os.path.dirname(os.path.dirname(path)))
 from protoc_gen_http_python import http
 
-__version__ = "0.0.3"
+__version__ = "1.0.0rc1"
 
 
 def main() -> None:

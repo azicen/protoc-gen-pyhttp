@@ -22,7 +22,7 @@ class TemplateTest(unittest.TestCase):
         service.methods[0].pascal_case_name = "SayHello"
         service.methods[0].snake_case_name = "say_hello"
         service.methods[0].request = "SayHelloRequest"
-        service.methods[0].reply = "SayHelloResponse"
+        service.methods[0].response = "SayHelloResponse"
         service.methods[0].comment = ["Say hello method"]
         service.methods[0].path = "/web/say/hello/{name}"
         service.methods[0].method = "GET"
@@ -32,7 +32,7 @@ class TemplateTest(unittest.TestCase):
         service.methods[1].pascal_case_name = "GetTime"
         service.methods[1].snake_case_name = "get_time"
         service.methods[1].request = "GetTimeRequest"
-        service.methods[1].reply = "GetTimeResponse"
+        service.methods[1].response = "GetTimeResponse"
         service.methods[1].comment = ["Get current time method"]
         service.methods[1].path = "/web/time"
         service.methods[1].method = "GET"
@@ -42,7 +42,7 @@ class TemplateTest(unittest.TestCase):
         service.methods[2].pascal_case_name = "EchoV1"
         service.methods[2].snake_case_name = "echo_v1"
         service.methods[2].request = "EchoV1Request"
-        service.methods[2].reply = "EchoV1Response"
+        service.methods[2].response = "EchoV1Response"
         service.methods[2].comment = ["Echo message method"]
         service.methods[2].path = "/web/v1/echo"
         service.methods[2].method = "POST"
@@ -53,7 +53,7 @@ class TemplateTest(unittest.TestCase):
         service.methods[3].pascal_case_name = "EchoV2"
         service.methods[3].snake_case_name = "echo_v2"
         service.methods[3].request = "EchoV2Request"
-        service.methods[3].reply = "EchoV2Response"
+        service.methods[3].response = "EchoV2Response"
         service.methods[3].comment = ["EchoV2 message method"]
         service.methods[3].path = "/web/v2/echo/{time}"
         service.methods[3].method = "POST"
