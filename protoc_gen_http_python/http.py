@@ -47,7 +47,6 @@ def generate_file_content(proto_file: FileDescriptorProto, pool: DescriptorPool,
     has_repeated_composite = False
     has_scalar_map = False
     has_message_map = False
-    array = []
     for service_desc in services:
         for method_desc in service_desc.methods:
             if not has_vars:
@@ -67,10 +66,10 @@ def generate_file_content(proto_file: FileDescriptorProto, pool: DescriptorPool,
                 has_repeated_composite = all([not type_desc.scalar, type_desc.alias is not None])
 
             if not has_scalar_map:
-                has_scalar_map = all([type_desc.scalar, type_desc.alias is None])
+                has_scalar_map = all([type_desc.scalar, type_desc.map_alias is not None])
 
             if not has_message_map:
-                has_message_map = all([not type_desc.scalar, type_desc.alias is None])
+                has_message_map = all([not type_desc.scalar, type_desc.map_alias is not None])
 
     content = template.execute(
         services=services,
