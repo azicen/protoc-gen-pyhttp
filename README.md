@@ -1,1 +1,1 @@
-# protoc-gen-http-python
+# protoc-gen-pyhttp

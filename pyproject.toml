@@ -17,9 +17,9 @@ show_error_codes = true
 [tool.pyright]
 venvPath = "venv"
 venv = "venv"
-extraPaths = ["protoc_gen_http_python"]
+extraPaths = ["protoc_gen_pyhttp"]
 include = [
-    "protoc_gen_http_python/",
+    "protoc_gen_pyhttp/",
     "test/"
 ]
 exclude = [
