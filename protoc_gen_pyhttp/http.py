@@ -9,8 +9,8 @@ from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.descriptor import FileDescriptor, FieldDescriptor, Descriptor
 from google.api.http_pb2 import HttpRule
 
-from protoc_gen_http_python import template, util
-from protoc_gen_http_python.template import ServiceDesc, MethodDesc, TypeDesc
+from protoc_gen_pyhttp import template, util
+from protoc_gen_pyhttp.template import ServiceDesc, MethodDesc, TypeDesc
 
 
 def generate_file(proto_file: FileDescriptorProto, pool: DescriptorPool, gen: CodeGeneratorResponse.File):

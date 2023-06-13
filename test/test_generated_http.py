@@ -1,5 +1,5 @@
 import unittest
-from protoc_gen_http_python.template import execute, ServiceDesc, MethodDesc
+from protoc_gen_pyhttp.template import execute, ServiceDesc, MethodDesc
 
 
 class TemplateTest(unittest.TestCase):
