@@ -84,9 +84,9 @@ from google.protobuf.json_format import ParseDict as _ParseDict
 {{ use }}
 {%- endfor %}
 
-_RegisterMethod = _Callable[[str, str, _Callable[[_Dict[str, _Any], bytes], _Any]], _Any]
-_RequestDeserializerMethod = _Callable[[_Any, bytes], _Any]
-_ResponseSerializerMethod = _Callable[[_Any], _Any]
+_RegisterFunction = _Callable[[str, str, _Callable[[_Dict[str, _Any], bytes], _Any]], _Any]
+_RequestDeserializerFunction = _Callable[[_Any, bytes], _Any]
+_ResponseSerializerFunction = _Callable[[_Any], _Any]
 
 
 {%- for service in services %}
@@ -114,10 +114,10 @@ class {{ service.name }}Servicer(object):
 
 
 def register_{{ service.snake_case_name }}_http_server(
-        register: _RegisterMethod,
+        register: _RegisterFunction,
         servicer: {{ service.name }}Servicer,
-        request_deserializer: _RequestDeserializerMethod,
-        response_serializer: _ResponseSerializerMethod):
+        request_deserializer: _RequestDeserializerFunction,
+        response_serializer: _ResponseSerializerFunction):
     service = {{ service.pascal_case_name }}(servicer, request_deserializer, response_serializer)
     {%- for method in service.methods %}
     register("{{ method.method }}", "{{ method.path }}", service.{{ method.snake_case_name }})
@@ -126,14 +126,14 @@ def register_{{ service.snake_case_name }}_http_server(
 
 class {{ service.pascal_case_name }}(object):
     servicer: {{ service.name }}Servicer
-    request_deserializer: _RequestDeserializerMethod
-    response_serializer: _ResponseSerializerMethod
+    request_deserializer: _RequestDeserializerFunction
+    response_serializer: _ResponseSerializerFunction
 
     def __init__(
             self,
             servicer: {{ service.name }}Servicer,
-            request_deserializer: _RequestDeserializerMethod,
-            response_serializer: _ResponseSerializerMethod):
+            request_deserializer: _RequestDeserializerFunction,
+            response_serializer: _ResponseSerializerFunction):
         self.servicer = servicer
         self.request_deserializer = request_deserializer
         self.response_serializer = response_serializer
