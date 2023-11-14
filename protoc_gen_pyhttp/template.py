@@ -100,7 +100,7 @@ class {{ service.name }}Servicer(object):
     """
     {%- for method in service.methods %}
 
-    def {{ method.name }}(
+    async def {{ method.name }}(
             self,
             request: {{ method.request.alias }}
     ) -> {{ method.response.alias }}:
@@ -140,7 +140,7 @@ class {{ service.pascal_case_name }}(object):
 
     {%- for method in service.methods %}
 
-    def {{ method.snake_case_name }}(self, {{- ' ' -}}
+    async def {{ method.snake_case_name }}(self, {{- ' ' -}}
             {%- if method.has_vars %}path_params{% else %}_{% endif %}: _Dict[str, _Any], {{- ' ' -}}
             {%- if method.has_body %}body{% else %}__{% endif %}: bytes):
         _request = {{ method.request.alias }}()
@@ -177,9 +177,9 @@ class {{ service.pascal_case_name }}(object):
         {%- endif %}
         {%- endif %}
         {%- if method.response_body is not defined or method.response_body == "" %}
-        _response = self.servicer.{{ method.name }}(_request)
+        _response = await self.servicer.{{ method.name }}(_request)
         {%- else %}
-        _response = self.servicer.{{ method.name }}(_request).{{ method.response_body }}
+        _response = await self.servicer.{{ method.name }}(_request).{{ method.response_body }}
         {%- endif %}
         return self.response_serializer(_response)
     {%- endfor %}
