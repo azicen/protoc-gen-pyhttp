@@ -1,9 +1,31 @@
+[project]
+name = "protoc-gen-pyhttp"
+version = "1.0.0rc3"
+authors = [
+  { name="azicen", email="chenjiazi@aliyun.com" },
+]
+description = "Generate server classes that correspond to services defined in http-protobuf"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/azicen/protoc-gen-pyhttp"
+"Bug Tracker" = "https://github.com/azicen/protoc-gen-pyhttp/issues"
+
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=62",
     "wheel",
 ]
 build-backend = "setuptools.build_meta"
+
+[project.scripts]
+protoc-gen-pyhttp = "protoc_gen_pyhttp.main:main"
 
 [tool.isort]
 profile = "black"
